@@ -112,5 +112,26 @@
             dynamic session = tf.Session( config: config );
             kb.set_session( session );
         }
+
+        /// <summary>
+        /// GPU memory allocation settings for TensorFlow backend
+        /// </summary>
+        /// <param name="per_process_gpu_memory_fraction">If true, the allocator does not pre-allocate the entire specified GPU memory region, instead starting small and growing as needed.</param>
+        /// <param name="allow_growth">Fraction of the available GPU memory to allocate for each process. 1 means to allocate all of the GPU memory, 0.5 means the process allocates up to ~50% of the available GPU memory.</param>
+        public static void ConfigTensorFlowBackendGPUOptions(double per_process_gpu_memory_fraction = 1.0, bool allow_growth = false)
+        {
+            dynamic tf = Py.Import("tensorflow");
+            dynamic kb = Py.Import("keras.backend");
+
+            dynamic gpu_options = tf.GPUOptions(
+                per_process_gpu_memory_fraction: per_process_gpu_memory_fraction, 
+                allow_growth: allow_growth
+            );
+            dynamic config = tf.ConfigProto(gpu_options: gpu_options);
+            dynamic session = tf.Session(config: config);
+            kb.set_session(session);
+        }
+
+
     }
 }
