@@ -131,7 +131,5 @@
             dynamic session = tf.Session(config: config);
             kb.set_session(session);
         }
-
-
     }
 }
